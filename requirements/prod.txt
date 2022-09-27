@@ -8,4 +8,4 @@ python-jose[cryptography]==3.3.0
 # DB
 tortoise-orm==0.19.2
 asyncpg==0.26.0
-aerich==0.7.0
+aerich==0.6.3

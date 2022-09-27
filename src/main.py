@@ -3,9 +3,17 @@ from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+from models import init_db
 from settings import APP_VERSION
 
+
 app = FastAPI()
+
+
+@app.on_event("startup")
+async def startup_event():
+    print("Starting up...")
+    init_db(app)
 
 
 class Greeting(BaseModel):
