@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from jose import jwt
 
 from models import User
-from api import verify_password, get_current_user
+from api import verify_password, get_current_user, get_password_hash
 from api.types import UserType, UserInType
 
 from settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
@@ -83,6 +83,20 @@ async def get_token(form_data: OAuth2PasswordRequestForm = Depends()):
     )
 
     return response
+
+
+@router.post("/registration")
+async def registration(user: UserInType):
+    user = user.dict(exclude_unset=True)
+    user['password'] = get_password_hash(user['password'])
+    user_obj = await User.create(**user)
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user_obj.username}, expires_delta=access_token_expires
+    )
+
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.post("/login")
