@@ -1,0 +1,11 @@
+# Backend
+uvicorn==0.18.*
+gunicorn==20.1.*
+fastapi==0.83.*
+python-multipart==0.0.5
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+# DB
+tortoise-orm==0.19.2
+asyncpg==0.26.0
+aerich==0.6.3

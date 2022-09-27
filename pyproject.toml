@@ -1,0 +1,9 @@
+[tool.black]
+skip-string-normalization = true
+line-length = 120
+target-version = ['py38']
+
+[tool.aerich]
+tortoise_orm = "settings.TORTOISE_ORM"
+location = "./migrations"
+src_folder = "./src"
