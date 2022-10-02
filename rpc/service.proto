@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message Null {}
+
+
+service AddService {
+  rpc Health(Null) returns (Null);
+  rpc Add (AddArgs) returns (AddReply) {}
+}
+
+// The request message containing the first and second args to add.
+message AddArgs {
+  int32 first = 1;
+  int32 second = 2;
+}
+
+// The response message containing the sum of two args
+message AddReply {
+  int32 result = 1;
+}

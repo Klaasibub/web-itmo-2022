@@ -1,0 +1,4 @@
+# grpc
+grpcio==1.49.*
+grpcio-tools==1.49.*
+googleapis-common-protos==1.56.*
