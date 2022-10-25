@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 from datetime import datetime, timedelta
 
@@ -13,7 +14,8 @@ from models import User
 from api import verify_password, get_current_user, get_password_hash
 from api.types import UserType, UserInType
 
-from settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from broker import send_msg
+from settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, DEFAULT_QUEUE
 
 
 router = APIRouter(
@@ -95,7 +97,12 @@ async def registration(user: UserInType):
     access_token = create_access_token(
         data={"sub": user_obj.email}, expires_delta=access_token_expires
     )
-
+    send_msg(DEFAULT_QUEUE, body=json.dumps({
+        "from": "web-itmo@course.smile",
+        "to": user_obj.email,
+        "subject": "Registration",
+        "msg": "You have successfully registered!",
+    }))
     return {"access_token": access_token, "token_type": "bearer"}
 
 

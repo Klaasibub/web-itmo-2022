@@ -26,3 +26,40 @@ services:
       interval: 3s
       timeout: 5s
       retries: 10
+
+  consumer:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+    container_name: consumer
+    restart: on-failure
+    depends_on:
+      - "mailcatcher"
+      - "rabbit"
+    env_file:
+      - .env
+
+  mailcatcher:
+    build:
+      context: .
+      dockerfile: mailcatcher.Dockerfile
+    container_name: mailcatcher
+    ports:
+      - $MAILCATCHER_PORT:$MAILCATCHER_PORT
+      - $MAILCATCHER_PORT_EXTERNAL:$MAILCATCHER_PORT_EXTERNAL
+    restart: on-failure
+    env_file:
+      - .env
+
+  rabbit:
+    image: rabbitmq:3.8.19
+    container_name: rabbit
+    ports:
+      - $BROKER_PORT:$BROKER_PORT
+    env_file:
+      - .env
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 30s
+      retries: 3
