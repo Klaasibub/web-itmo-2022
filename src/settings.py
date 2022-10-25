@@ -25,3 +25,13 @@ TORTOISE_ORM = {
 ALGORITHM = "HS256"
 SECRET_KEY = os.getenv('SECRET_KEY', "bb861a8d76582fbf259eccb3fcda04069ee15966c9a7246336f0db67b446d78c")
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES', 60)
+
+# BROKER
+LOG_FORMAT = '%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -35s %(lineno) -5d: %(message)s'
+
+BROKER_HOST = os.getenv('BROKER_HOST', '0.0.0.0')
+BROKER_PORT = os.getenv('BROKER_PORT', '5672')
+BROKER_USER = os.getenv('BROKER_USER', 'guest')
+BROKER_PASSWORD = os.getenv('BROKER_PASSWORD', 'guest')
+
+DEFAULT_QUEUE = os.getenv('DEFAULT_QUEUE', 'default-queue')
