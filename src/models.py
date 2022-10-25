@@ -11,7 +11,7 @@ class User(models.Model):
     The User model
     """
     id = fields.UUIDField(pk=True)
-    username = fields.CharField(max_length=25, unique=True)
+    email = fields.CharField(max_length=25, unique=True)
     password = fields.CharField(max_length=128, null=True)
     creation_date = fields.DatetimeField(auto_now_add=True)
     last_modified = fields.DatetimeField(auto_now=True)

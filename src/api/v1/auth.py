@@ -54,7 +54,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 @router.post("/token")
 async def get_token(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
-        user = await UserType.from_queryset_single(User.get(username=form_data.username))
+        user = await UserType.from_queryset_single(User.get(email=form_data.username))
     except DoesNotExist:
         raise unauthorized_exception
 
@@ -63,7 +63,7 @@ async def get_token(form_data: OAuth2PasswordRequestForm = Depends()):
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": user.email}, expires_delta=access_token_expires
     )
 
     token = jsonable_encoder(access_token)
@@ -93,7 +93,7 @@ async def registration(user: UserInType):
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user_obj.username}, expires_delta=access_token_expires
+        data={"sub": user_obj.email}, expires_delta=access_token_expires
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
@@ -102,7 +102,7 @@ async def registration(user: UserInType):
 @router.post("/login")
 async def login(user_data: UserInType):
     try:
-        user = await UserType.from_queryset_single(User.get(username=user_data.username))
+        user = await UserType.from_queryset_single(User.get(email=user_data.email))
     except DoesNotExist:
         raise unauthorized_exception
 
@@ -111,7 +111,7 @@ async def login(user_data: UserInType):
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": user.email}, expires_delta=access_token_expires
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
